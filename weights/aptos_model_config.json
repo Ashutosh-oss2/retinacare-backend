@@ -1,0 +1,18 @@
+{
+    "model_file": "best_aptos_model.keras",
+    "threshold": 0.42,
+    "referable_classes": [
+        2,
+        3,
+        4
+    ],
+    "non_referable_classes": [
+        0,
+        1
+    ],
+    "test_accuracy": 0.7622950819672131,
+    "sensitivity": 0.9343065693430657,
+    "specificity": 0.9082969432314411,
+    "best_epoch": 9,
+    "best_val_loss": 0.68049
+}

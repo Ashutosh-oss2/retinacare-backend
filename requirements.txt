@@ -1,0 +1,19 @@
+# Core Web Framework
+fastapi>=0.110.0,<0.130.0
+uvicorn[standard]>=0.28.0,<0.41.0
+pydantic>=2.5.0,<3.0.0
+python-multipart>=0.0.9
+
+# Deep Learning Frameworks
+torch>=2.2.0,<3.0.0
+keras>=3.0.0,<4.0.0
+
+# Image Processing & Numerical
+numpy>=1.24.0,<3.0.0
+opencv-python-headless>=4.8.0,<5.0.0
+Pillow>=10.0.0,<13.0.0
+scipy>=1.11.0,<2.0.0
+
+# HTTP & Evaluation Clients (Test/Eval)
+httpx>=0.27.0
+pytest>=8.0.0
