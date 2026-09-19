@@ -38,21 +38,30 @@ app = FastAPI(
 # CORS CONFIGURATION (Environment-Driven, No Unrestricted *)
 # ============================================================
 
-raw_origins = os.getenv("ALLOWED_ORIGINS", "")
-if raw_origins.strip():
-    ALLOWED_ORIGINS = [origin.strip() for origin in raw_origins.split(",") if origin.strip()]
-else:
-    # Default development and common origins
-    ALLOWED_ORIGINS = [
-        "http://localhost:3000",
-        "http://localhost:5173",
-        "http://127.0.0.1:3000",
-        "http://127.0.0.1:5173",
-        "http://localhost:8000",
-        "http://127.0.0.1:8000",
-    ]
+DEFAULT_ORIGINS = [
+    "https://retina-care-frontend-theta.vercel.app",
+    "http://localhost:3000",
+    "http://localhost:5173",
+    "http://127.0.0.1:3000",
+    "http://127.0.0.1:5173",
+    "http://localhost:8000",
+    "http://127.0.0.1:8000",
+]
 
-ALLOW_ORIGIN_REGEX = os.getenv("ALLOW_ORIGIN_REGEX", r"https://.*\.vercel\.app")
+def get_allowed_origins() -> list[str]:
+    """Parse comma-separated origins from environment with whitespace/quote/slash sanitization."""
+    origins = list(DEFAULT_ORIGINS)
+    raw = os.getenv("ALLOWED_ORIGINS", "")
+    if raw.strip():
+        for item in raw.split(","):
+            cleaned = item.strip().strip("'\"").rstrip("/")
+            if cleaned and cleaned not in origins:
+                origins.append(cleaned)
+    return origins
+
+ALLOWED_ORIGINS = get_allowed_origins()
+raw_regex = os.getenv("ALLOW_ORIGIN_REGEX", r"https://.*\.vercel\.app").strip().strip("'\"")
+ALLOW_ORIGIN_REGEX = raw_regex if raw_regex else None
 
 app.add_middleware(
     CORSMiddleware,

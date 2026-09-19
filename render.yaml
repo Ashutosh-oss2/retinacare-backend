@@ -12,7 +12,7 @@ services:
       - key: KERAS_BACKEND
         value: torch
       - key: ALLOWED_ORIGINS
-        value: http://localhost:5173,http://localhost:3000
+        value: https://retina-care-frontend-theta.vercel.app,http://localhost:5173,http://localhost:3000
       - key: ALLOW_ORIGIN_REGEX
         value: https://.*\.vercel\.app
     healthCheckPath: /health

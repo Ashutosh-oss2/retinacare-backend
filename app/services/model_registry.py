@@ -16,6 +16,10 @@ class ModelRegistry:
         if cls._instance is None:
             cls._instance = super(ModelRegistry, cls).__new__(cls)
             cls._instance._initialized = False
+            cls._instance.aptos_model = None
+            cls._instance.vessel_model = None
+            cls._instance.idrid_model = None
+            cls._instance.device = None
         return cls._instance
 
     def initialize(self, weights_dir: str = None):

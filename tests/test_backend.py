@@ -61,7 +61,21 @@ def test_2_health_endpoints():
 
 def test_3_cors_allowed_and_disallowed_origins():
     print("\n[Test 3] Testing CORS headers for allowed vs disallowed origins...")
-    # 1. Allowed Vercel Origin
+    # 1. Exact Production Vercel Origin
+    res_prod = client.options(
+        "/predict/aptos",
+        headers={
+            "Origin": "https://retina-care-frontend-theta.vercel.app",
+            "Access-Control-Request-Method": "POST",
+            "Access-Control-Request-Headers": "content-type"
+        }
+    )
+    assert res_prod.status_code == 200
+    assert res_prod.headers.get("access-control-allow-origin") == "https://retina-care-frontend-theta.vercel.app"
+    assert res_prod.headers.get("access-control-allow-credentials") == "true"
+    print(f"  -> Exact production origin accepted: {res_prod.headers.get('access-control-allow-origin')}")
+
+    # 2. Vercel Preview Origin Regex
     res_allowed = client.options(
         "/predict/aptos",
         headers={
@@ -72,7 +86,7 @@ def test_3_cors_allowed_and_disallowed_origins():
     )
     assert res_allowed.status_code == 200
     assert res_allowed.headers.get("access-control-allow-origin") == "https://retinacare-app.vercel.app"
-    print(f"  -> Allowed origin accepted: {res_allowed.headers.get('access-control-allow-origin')}")
+    print(f"  -> Regex Vercel preview accepted: {res_allowed.headers.get('access-control-allow-origin')}")
 
     # 2. Disallowed Random Origin
     res_disallowed = client.options(
