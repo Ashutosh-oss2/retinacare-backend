@@ -91,7 +91,15 @@ def run_aptos_inference(img_bgr: np.ndarray, filename: str) -> AptosResponse:
     preprocessed = _preprocess_fundus_bgr(img_for_inference, target_size=224)
     batch_input = np.expand_dims(preprocessed, axis=0)
 
-    probabilities = registry.aptos_model.predict(batch_input, verbose=0)[0]
+    import torch
+    with torch.inference_mode():
+        try:
+            tensor_in = torch.from_numpy(batch_input).to(registry.device)
+            out_tensor = registry.aptos_model(tensor_in, training=False)
+            probabilities = out_tensor.detach().cpu().numpy()[0]
+        except Exception:
+            probabilities = registry.aptos_model.predict(batch_input, verbose=0)[0]
+
     predicted_class = int(np.argmax(probabilities))
     predicted_label = CLASS_NAMES[predicted_class]
     class_description = CLASS_DESCRIPTIONS[predicted_class]

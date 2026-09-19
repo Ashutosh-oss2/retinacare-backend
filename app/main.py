@@ -1,5 +1,7 @@
 import os
 os.environ.setdefault("KERAS_BACKEND", "torch")
+import torch
+torch.set_num_threads(int(os.getenv("TORCH_NUM_THREADS", "1")))
 from contextlib import asynccontextmanager
 from fastapi import FastAPI, Request, status
 from fastapi.middleware.cors import CORSMiddleware

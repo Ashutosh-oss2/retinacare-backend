@@ -11,6 +11,8 @@ services:
         value: ./weights
       - key: KERAS_BACKEND
         value: torch
+      - key: TORCH_NUM_THREADS
+        value: 1
       - key: ALLOWED_ORIGINS
         value: https://retina-care-frontend-theta.vercel.app,http://localhost:5173,http://localhost:3000
       - key: ALLOW_ORIGIN_REGEX
